@@ -29,7 +29,7 @@ Codex writes `<config-home>/pstack-models.md`. Codex has no `@` include, so mirr
 
 ### 1. Establish the parent
 
-Use the harness and tool surface running this skill: Claude Code or Codex. Environment markers may corroborate that top-level answer, but do not launch a child and ask it to detect where it came from. Record the parent because the same descriptor takes a different route in each harness.
+Use the actual session instructions to identify the host as well as the Claude Code or Codex parent. On T3, follow the [host route](../poteto-mode/references/provider-dispatch.md#t3-host-2026-10-28). Its capability snapshot, compiled requests, and actual T3 result records replace the standalone CLI availability checks, route probes, receipt checks, and background-drain smoke below. Probe each selected assignment with advisory no-edit intent, or refuse when enforcement is required. Preserve the final-write permission checks. Missing T3 tools refuse without CLI fallback. Environment markers may corroborate that top-level answer, but do not launch a child and ask it to detect where it came from. Record the parent because the same descriptor takes a different route in each harness.
 
 ### 2. Load current state
 

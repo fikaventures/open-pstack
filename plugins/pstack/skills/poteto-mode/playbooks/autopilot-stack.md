@@ -1,5 +1,7 @@
 ### Autopilot-stack
 
+On T3, follow [host dispatch](../references/provider-dispatch.md#t3-host-2026-10-28): the parent calls `delegate_task`, T3 prepares worktrees, and distinct T3 records replace CLI receipts. Use completion notifications instead of agent polling or audit loops, cancel with `task_cancel`, and create fresh review tasks. Do not create a child checkout in the shell or its brief.
+
 **You own the stack, never the landing. Hand the operator one linear stack of verified PRs to review and land.** **Autopilot-full** holds except for how verified work leaves. Each tick re-reads both playbooks from disk (`skills/poteto-mode/playbooks/autopilot-stack.md` and `autopilot-full.md` under the installed plugin), and this one wins where they differ.
 
 1. **Run Autopilot-full's owners, minus the landing.** Resolve the forge, `<base-repo>`, `<head-remote>`, `<head-url>`, and `<base-remote>` as Autopilot-full step 2 does; this playbook never merges. When the head repository is a fork, validate its identity and record its owner and repository name as `<fork-owner>` and `<head-name>`. Owners report STACK-READY with the exact head SHA in place of merge-ready. They never rebase onto another branch, trunk included, and never retarget, merge, close a PR, or arm auto-merge, because the root owns the chain's topology and the operator owns the landing. When an item depends on another, its owner branches from that item's branch, not from trunk. Nothing enters the stack before a clean verdict from Autopilot-full step 4.

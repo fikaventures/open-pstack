@@ -2,6 +2,10 @@
 
 pstack skills retain Claude Code tool language (`Skill`, `Agent`, `AskUserQuestion`) in shared prose. On Codex the files are the same; only those tool names resolve differently. Model execution is not translated here. Read [`provider-dispatch.md`](provider-dispatch.md) for the parent-owned Claude/Codex/Grok route table and provider-qualified descriptors.
 
+## T3 host exceptions
+
+When the actual session is hosted in T3, follow [T3 host dispatch](provider-dispatch.md#t3-host-2026-10-28) before the standalone mappings below. Only unchanged inherited provider, model, and settings, shared isolation, and completion this turn use native `spawn_agent` and `wait_agent`, without overrides. Requested settings, cross-provider or cross-model choices, worktrees, and background tasks use the parent's direct T3 `delegate_task`. Missing tools refuse. T3 creates worktrees. Async completion notifications replace process-handle polling and standalone background/wait mappings. Retain distinct T3 records, follow `next`, cancel with `task_cancel`, and start fresh review tasks. Never invoke the CLI runner as a T3 fallback.
+
 ## Harness config homes
 
 Resolve the current parent's config home once: Claude Code uses nonempty `CLAUDE_CONFIG_DIR`, otherwise `$HOME/.claude`; Codex uses nonempty `CODEX_HOME`, otherwise `$HOME/.codex`. The equivalent quoted shell expressions are:

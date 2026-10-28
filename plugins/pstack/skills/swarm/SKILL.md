@@ -7,6 +7,8 @@ description: "Fan out N parallel workers, drain them, and return one report. Use
 
 **Dispatch contract.** Resolve each worker descriptor through [`provider-dispatch.md`](../poteto-mode/references/provider-dispatch.md). The parent starts native and external lanes; workers never route themselves. On Codex, resolve remaining Claude tool names via [`codex-tools.md`](../poteto-mode/references/codex-tools.md).
 
+On T3, the [host route](../poteto-mode/references/provider-dispatch.md#t3-host-2026-10-28) replaces the standalone launcher, worktree, background, and receipt instructions below. Use the compiled request and distinct T3 result records.
+
 ## Start
 
 Open a todolist with one entry per phase before launching anything.

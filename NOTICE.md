@@ -47,6 +47,8 @@ Summary of structural changes:
 
 Per the MIT license, modifications are permitted. Skill bodies have been edited to substitute Cursor-specific primitives with their Claude Code equivalents (the full substitution table is in [CHANGES.md](CHANGES.md)). All upstream copyright notices in source files (where present) are preserved.
 
+Local addition, 2026-10-28, for compatibility with T3-owned delegation: the T3 host section in provider dispatch, its narrow shared-skill and playbook pointers, the JSON compiler and normalizer, and the process-boundary verification harness. These are independently authored port additions for #253.
+
 Files authored for this port (not derived from upstream):
 
 - `plugins/pstack/.claude-plugin/plugin.json`
@@ -54,6 +56,8 @@ Files authored for this port (not derived from upstream):
 - `plugins/pstack/.codex-plugin/plugin.json`
 - `.agents/plugins/marketplace.json` (repo root)
 - `plugins/pstack/skills/poteto-mode/references/codex-tools.md`
+- `plugins/pstack/skills/poteto-mode/scripts/runner/t3.ts` and `runner/pstack-t3` (T3 request compilation and response normalization)
+- `tests/t3-e2e.py` (T3 process-boundary checks and replayable artifacts)
 - `plugins/pstack/skills/poteto-mode/scripts/bootstrap.test.ts`
 - `plugins/pstack/skills/poteto-mode/scripts/check-plan.test.ts`
 - `plugins/pstack/skills/poteto-mode/scripts/resolve-codex-transcript`, `resolve-codex-transcript.ts`, and `resolve-codex-transcript.test.ts` (Reflect's known-chat Codex transcript lookup, #140; behavior and test cases from Donncha O'Toole's contribution)

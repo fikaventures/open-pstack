@@ -3,6 +3,10 @@
 Open Pstack lands on green: Mergify merges a ready PR to main once verify and exact-head live-gate pass and no review thread is unresolved, and a workflow resolves Unfret's own threads. A PR that touches `.github/` or the Mergify config also waits for Unfret, and workflow changes require operator queueing.
 This port applies the Cursor → Claude Code substitutions in skill bodies. Earlier drafts left them flagged; this revision resolves them. A later pass added a Codex build that shares the same skills; see [Codex port](#codex-port) below.
 
+## Local T3 host route, 2026-10-28
+
+Issue #253 adds compatibility with T3-owned delegation at the existing provider-dispatch boundary. The port-authored `runner/t3.ts` and `runner/pstack-t3` compile JSON intent into a native plan, a direct T3 request, or a named refusal, and normalize actual T3 responses into separate evidence records. They do not launch models or change the CLI runner. `tests/t3-e2e.py` exercises the executable and saves replayable JSONL evidence. Provider dispatch includes a real-host exercise recipe. Codex tool mappings, the six affected skill entrypoints, and directly related playbooks point to this host route. One shared skill tree, model defaults, versions, and standalone CLI receipts remain unchanged.
+
 ## 1.16.0 syncs to Cursor pstack 0.15.29
 
 Open Pstack 1.16.0 tracks Cursor pstack 0.15.29 at `88d47514b82e7c44f00f2b2a72ff6dd12158038c`. Sixteen upstream commits since 0.15.25 touch pstack. Nine change skill content, and all nine are applied with the port adaptations below. `a968159` names two skills after their folders: the port's `poteto-mode` already complies, and `make-bot-ui` stays out. Three add upstream's own Claude Code install and a docs check, which stay out apart from their README text. Three bump only the Cursor manifests and guide, which stay out. The release also fixes #46 and #235, and ships Claude Haiku 5.5 lanes (#223), foreground waits on Claude Code (#232, #233) and the comment sweep (#218), all merged after 1.15.0. Default roles and panels are unchanged.

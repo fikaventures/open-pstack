@@ -9,6 +9,8 @@ description: "Spawn N parallel candidates at the same task, pick a base, graft t
 
 Open a todolist with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything.
 
+On T3, the [host route](../poteto-mode/references/provider-dispatch.md#t3-host-2026-10-28) replaces the standalone launcher, worktree, background, and receipt instructions below. Use the compiled request and distinct T3 result records.
+
 ## Phase A: Frame
 
 Every candidate gets the same prompt, so the prompt is the contract.

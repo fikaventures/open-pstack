@@ -1,5 +1,7 @@
 ### Orchestrate
 
+On T3, follow [host dispatch](../references/provider-dispatch.md#t3-host-2026-10-28): the parent calls `delegate_task`, T3 prepares worktrees, and distinct T3 records replace CLI receipts. Use completion notifications instead of agent polling or audit loops, cancel with `task_cancel`, and create fresh review tasks. Do not create a child checkout in the shell or its brief.
+
 **You own the program, never the code. Author briefs, drain the queue, keep the frontier green, decide.** For a whole project handed to one standing coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, the human checking in twice a day instead of every five minutes. One task driven to a predicate is Autonomous run. One ambitious run needing a bespoke workflow is figure-it-out. Route here when the work outlives any single agent. Work one agent could finish inside the session's budget is not a program.
 
 Ceremony must scale with the program. On cheap near-identical units, collapse it as each section directs.

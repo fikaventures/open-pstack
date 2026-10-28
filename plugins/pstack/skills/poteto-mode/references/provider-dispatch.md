@@ -28,9 +28,94 @@ A kept predecessor in the catalog matches its family. Dispatch it with the sheet
 
 The top-level harness resolves the route once. A child receives an assigned provider, model, effort, access mode, prompt, working directory, and output path. A child never detects the harness, chooses a provider, or launches another model. Environment markers may corroborate the top-level harness before fan-out, but nested processes inherit parent markers and must not use them for routing.
 
-The catalog's [route table](model-catalog.md#routes) gives each provider's route from each parent. A provider native to the parent uses the parent's subagent primitive. Every other provider uses the external runner.
+The catalog's [route table](model-catalog.md#routes) gives each provider's route from each parent. Outside T3, a provider native to the parent uses the parent's subagent primitive. Every other provider uses the external runner.
 
-`inherit-parent` and `auto` remain aliases. They use the parent's current model and effort through its native subagent primitive. In a panel they still consume one lane, but they reduce provider diversity; say so in the synthesis record.
+`inherit-parent` and `auto` remain aliases. They use the parent's current model and effort. On T3, apply the host eligibility rules below before choosing the native tool. In a panel they still consume one lane, but they reduce provider diversity; say so in the synthesis record.
+
+## T3 host, 2026-10-28
+
+This host route makes pstack compatible with host-owned delegation. It takes precedence over the standalone native, external CLI, worktree, wait, and receipt mappings below. Keep the same skill tree and model sheet. T3 is a host, not a runner provider or a new CLI Parent.
+
+The parent identifies T3 from the actual session instructions. Never infer the host from inherited environment variables. A required T3 tool missing from that session is a named refusal. Do not fall back to a model CLI, another provider, or another orchestration mechanism.
+
+### Compile the selected assignment
+
+The parent calls `orchestrator_capabilities` once per thread before its first `delegate_task`. Refresh only after an error or a user-named provider change. Preserve the actual structured capability object. If the snapshot omits a selected model or a rolling family's revisions, report incomplete capabilities rather than declaring the model unavailable. Do not guess from the short list or silently search and select another model.
+
+Run `skills/poteto-mode/scripts/runner/pstack-t3` with one JSON object on stdin. The helper emits one JSON object on stdout. It never calls MCP or HTTP, launches models, or manages tasks. Its shell launcher disables project Bun config, dotenv loading, and injected Bun or Node options, as the CLI launchers do. A tagged refusal exits zero so the parent can save and inspect it. Read `kind`, not just the process exit code.
+
+Compile input has these fields:
+
+- `operation: "compile"`, `host: "t3"`, and `parent: {nativeAvailable, delegateAvailable}` from the actual session tool inventory.
+- `role`, the pstack role name, and `apiRole`, one of T3's `implementation`, `research`, `review`, `design`, `test`, or `general` roles. These are separate identities.
+- `descriptor`, the selected `provider:model@effort`, `inherit-parent`, or `auto`, plus `task` and `title`.
+- `lifecycle: {isolation: "shared"|"worktree", completion: "this-turn"|"background"}`.
+- `access: {intent: "advisory-read-only"|"write", requireConfinement: boolean, requireNoDelegation: boolean}`.
+- `capabilities`, the parent-obtained T3 structured object, with `inheritedProviderInstanceId`, `inheritedModel`, `inheritedOptions`, `runtimeMode`, `interactionMode`, `providers`, and `features`.
+- Optional `options`, a record of exact requested option IDs and values, and `providerInstanceId` to select an ambiguous instance. Local delegates stay in the current thread's project. A `projectId` selection refuses; linked-environment delegation is outside this helper's scope.
+
+The output is a `native`, `delegate`, or `dropout` plan. Native eligibility requires unchanged inherited provider, model, and settings, shared isolation, and completion this turn. Explicit requested settings require `delegate_task` even when equal to the inherited setting. Cross-provider, cross-model, worktree, background, or explicit project selection also requires `delegate_task`. A native plan contains the task and expected inheritance. Use the session's native tool without provider, model, or option overrides. Claude `Agent` uses `run_in_background: false`. Wait for that native result this turn and retain its transcript separately.
+
+A delegate plan contains `request` with only these API fields:
+
+```json
+{
+	"task": "The complete child brief",
+	"title": "A short title",
+	"role": "implementation",
+	"isolation": "worktree",
+	"mode": "wait",
+	"target": {
+		"providerInstanceId": "the advertised instance",
+		"model": "the advertised concrete model",
+		"options": {"reasoningEffort": "max"}
+	}
+}
+```
+
+Pass `request` directly to the real `delegate_task` tool. No child checkout commands or `cwd` belong in it. T3 prepares the worktree. It starts from the parent's commit, so uncommitted changes are not shared. Worktrees separate files but do not confine a process. Never create a child checkout in the shell or tell the child to create one.
+
+The compiler maps pstack's `codex` provider to T3's `codex` driver and `claude` to `claudeAgent`. An ambiguous provider instance refuses unless explicitly selected. Claude rolling aliases use the existing catalog's family prefixes and select the highest numeric revision from a complete family listing. Partial family listings refuse. After that refusal, obtain a focused capability snapshot for the selected family and retain both snapshots. Exact registered pins stay exact. `inherit-parent` preserves the exact inherited revision. No other model is substituted.
+
+Codex effort maps to `target.options.reasoningEffort`. Claude effort maps to `target.options.effort`. The exact value must appear in that model's advertised option values. Never lower an unsupported requested effort. Explicit descriptors start with the selected model's advertised option defaults, including `serviceTier` when present. `@default` adds no effort override. Optional settings without advertised defaults are omitted unless explicitly requested. `inherit-parent` and `auto` copy the complete inherited options, including service tier. Explicit `options` then override these values. A conflicting descriptor effort refuses. A different model never inherits foreign option IDs. Empty options explicitly clear overrides under T3's API contract.
+
+Runtime and interaction modes are context, not permission attestations or launch overrides. The compiler passes neither field to `delegate_task`. An advisory no-edit review appends a labeled instruction to the task. REQUIRED enforced confinement, read-only sandboxing, or disabled recursive delegation refuses before launch because this API does not attest those controls. Do not reinterpret a CLI `read-only` access mode or the model sheet's Codex writer sandbox setting as a T3 guarantee. State advisory intent explicitly or record the refusal when enforcement is required.
+
+### Retain T3 lifecycle evidence
+
+Save the compiled plan and actual structured tool response. Normalize them with `{"operation":"normalize","plan":<compiled plan>,"response":<actual structured response>}` on stdin to the same executable. After a pending launch, add `launch` with that retained structured launch response when normalizing a later response. Task identities must match. Async completion requires launch evidence. Normalize only delegate plans. Native results keep native transcript evidence.
+
+The result is tagged `t3-pending`, `t3-complete`, or `t3-dropout`. Running, queued, waiting, approval, question, wait timeout, and a completed turn with live child runs remain pending. A wait timeout does not cancel a child. Only matching provider, concrete model, and complete option values, a completed terminal status, no live work, and nonempty actual summary output yield `t3-complete`. Failure, cancellation, interruption, mismatch, empty output, and ambiguous acceptance stay distinct dropouts. Keep the raw response, task identity, child thread link, `next`, and opaque context-transfer references. An ambiguous response may represent an accepted task. Never relaunch automatically.
+
+Follow the actual response's `next`. Async completion wakes the parent. End the turn when instructed and resume on the completion notification. Do not poll with `task_status`, sleep loops, watchers, Monitor, or ScheduleWakeup. Use `task_cancel` with the retained task identity when cancelling superseded or unwanted work. Never use `t3_thread_interrupt` on its child thread. A new review or re-check is a fresh `delegate_task` with the brief, findings, and objections, not `t3_thread_send`. Fix small review findings directly. If told to use fewer delegates, cancel extras without replacements.
+
+T3 records prove the host reported a configuration and result. They are not schema-version-1 CLI receipts or proof of the model actually served. They never synthesize argv, an exit status, pinned-argv evidence, usage, cost, sandbox enforcement, or recursion enforcement. Unknown controls remain `unattested`. Keep any fields the host really returns under the raw response rather than promoting them into CLI evidence.
+
+### Exercise the real host
+
+Run the process checks from the source root and retain the JSONL artifact:
+
+```sh
+python3 tests/t3-e2e.py --helper plugins/pstack/skills/poteto-mode/scripts/runner/pstack-t3 --artifacts /absolute/private-artifacts/t3-boundary
+```
+
+For the live exercise, choose a permitted selected descriptor and advisory read-only shared task. A useful task is `Reply with exactly PSTACK_T3_LIVE_2026_10_28. Do not edit files or run commands.` Use `completion: "this-turn"` and a descriptor with an explicit effort to exercise `delegate_task`. Obtain the capability snapshot and tool inventory from the actual parent. Save the compile input as `input.json` in a private artifact directory. Then run:
+
+```sh
+"<plugin-root>/skills/poteto-mode/scripts/runner/pstack-t3" < input.json > plan.json
+jq -e '.kind == "delegate"' plan.json
+jq '.request' plan.json > request.json
+```
+
+The parent invokes the actual T3 `delegate_task` with the exact object in `request.json`. Save its actual `structuredContent` object as `response.json`, without reconstructing a terminal response from a child message. If pending, follow `next` and retain the completion notification before normalization. No polling. A live child notification alone is not proof that all descendants finished. Keep each actual response separately.
+
+```sh
+jq -n --slurpfile plan plan.json --slurpfile response response.json --slurpfile launch launch.json '{operation:"normalize",plan:$plan[0],response:$response[0],launch:$launch[0]}' > normalize.json
+"<plugin-root>/skills/poteto-mode/scripts/runner/pstack-t3" < normalize.json > result.json
+jq -e '.kind == "t3-complete" and (.output | contains("PSTACK_T3_LIVE_2026_10_28"))' result.json
+```
+
+For an immediate terminal wait response, save it as both `launch.json` and `response.json`. For a pending response, save it as `launch.json`, follow `next`, and obtain `response.json` with `task_status` only after the completion notification. Retain `input.json`, `plan.json`, `request.json`, `launch.json`, `response.json`, `normalize.json`, `result.json`, and the real child result or artifact. These files let a reviewer replay compilation and normalization. They do not replay the model launch. Record the installed candidate, host, selected assignment, observed output, and any refusal. Process checks alone do not satisfy the live gate.
 
 ## Native lanes
 

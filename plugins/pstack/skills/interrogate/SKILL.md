@@ -9,6 +9,8 @@ Spawn one reviewer per configured model to adversarially review code changes. Th
 
 **Dispatch contract.** Read [`provider-dispatch.md`](../poteto-mode/references/provider-dispatch.md) before launching reviewers. Configured entries are provider-qualified descriptors; the parent starts native and external read-only lanes directly. On Codex, resolve remaining Claude tool names via [`codex-tools.md`](../poteto-mode/references/codex-tools.md).
 
+On T3, the [host route](../poteto-mode/references/provider-dispatch.md#t3-host-2026-10-28) replaces the standalone launcher, worktree, background, and receipt instructions below. Label no-edit intent as advisory. Required enforced read-only access refuses without attestation. Use the compiled request and distinct T3 result records.
+
 ## Step 1, Scope
 
 Identify what to review from context:
