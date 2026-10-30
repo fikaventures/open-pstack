@@ -160,10 +160,8 @@ function parseIntent(input: Record<string, unknown>): Intent {
   };
 }
 function advertisedModel(provider: Provider, requested: string): Model {
-  const exactFamily = FAMILIES.find((family) => family.provider === "claude" && family.model === requested);
-  const rollingFamily = exactFamily ?? FAMILIES.find((family) => family.provider === "claude" && "rolling" in family
-    && requested.startsWith(family.rolling.revisionPrefix) && /^[0-9]+(?:-[0-9]+)*$/.test(requested.slice(family.rolling.revisionPrefix.length)));
-  const rolling = provider.driverKind === "claudeAgent" && rollingFamily && "rolling" in rollingFamily ? rollingFamily.rolling : null;
+  const family = FAMILIES.find((family) => family.provider === "claude" && family.model === requested);
+  const rolling = provider.driverKind === "claudeAgent" && family && "rolling" in family ? family.rolling : null;
   const matches = provider.models.filter((model) => rolling
     ? model.id.startsWith(rolling.revisionPrefix) && /^[0-9]+(?:-[0-9]+)*$/.test(model.id.slice(rolling.revisionPrefix.length))
     : model.id === requested);

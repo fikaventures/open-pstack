@@ -109,6 +109,8 @@ compile_case("uninterpreted constraint refuses", lambda x: x["capabilities"]["pr
 compile_case("omitted model is incomplete", lambda x: x["capabilities"]["providers"][0].update(models=[], omittedModels=12), refusal("incomplete-capabilities"))
 compile_case("rolling alias selects latest advertised revision", lambda x: (x.update(descriptor="claude:opus@max"), x["capabilities"]["providers"][1]["models"].append({"id": "claude-opus-4-7", "options": []})),
              lambda x: equal(x["request"]["target"]["model"], "claude-opus-4-8"))
+compile_case("exact Claude pin is never upgraded", lambda x: (x.update(descriptor="claude:claude-opus-4-7@max"), x["capabilities"]["providers"][1]["models"].append({"id": "claude-opus-4-7", "options": [{"id": "effort", "values": ["max"], "default": "max"}]})),
+             lambda x: equal(x["request"]["target"]["model"], "claude-opus-4-7"))
 compile_case("partial rolling family refuses", lambda x: (x.update(descriptor="claude:opus@max"), x["capabilities"]["providers"][1].update(omittedModels=1)), refusal("incomplete-capabilities"))
 compile_case("optional settings without defaults need no invented override", lambda x: x["capabilities"]["providers"][0]["models"][0]["options"].append({"id": "optionalMode", "values": [True, False]}), check_request)
 compile_case("invalid API role", lambda x: x.update(apiRole="arena runners"), refusal("invalid-input"))
