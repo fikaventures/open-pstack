@@ -1,7 +1,5 @@
 ### Feature
 
-On T3, follow [host dispatch](../references/provider-dispatch.md#t3-host-2026-10-28): the parent calls `delegate_task`, T3 prepares worktrees, and distinct T3 records replace CLI receipts. Do not create a child checkout in the shell or its brief.
-
 **You own the design. Plan, review, verify.** Delegate implementation. Stay in the lead.
 
 1. `how` over the affected subsystem.

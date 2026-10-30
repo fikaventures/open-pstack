@@ -3,8 +3,7 @@
   "private": true,
   "packageManager": "bun@1.4.0",
   "scripts": {
-    "test": "bun run test:t3 && cd plugins/pstack/skills/poteto-mode/scripts && bun install --frozen-lockfile && bun run test",
-    "test:t3": "python3 tests/t3-e2e.py --helper plugins/pstack/skills/poteto-mode/scripts/runner/pstack-t3 --artifacts \"$(mktemp -d)\"",
+    "test": "cd plugins/pstack/skills/poteto-mode/scripts && bun install --frozen-lockfile && bun run test",
     "typecheck": "cd plugins/pstack/skills/poteto-mode/scripts && bun install --frozen-lockfile && bun run typecheck",
     "static": "bun -e 'for (const path of process.argv.slice(1)) JSON.parse(await Bun.file(path).text())' .claude-plugin/marketplace.json .agents/plugins/marketplace.json plugins/pstack/.claude-plugin/plugin.json plugins/pstack/.codex-plugin/plugin.json && PSTACK_STATIC_ONLY=1 bash tests/skill-collision-repro.sh"
   }

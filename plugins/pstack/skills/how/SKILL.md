@@ -9,8 +9,6 @@ Explore the codebase to answer "how does X work?" questions. Produce architectur
 
 **Dispatch contract.** Resolve every configured role through [`provider-dispatch.md`](../poteto-mode/references/provider-dispatch.md). Values are provider-qualified descriptors; the parent chooses native versus external execution. Every lane runs in `read-only` mode. Explorers use the `how explorer` descriptor, and every explainer uses the `how explainer` descriptor. When the sheet lacks either line, use that role's [role default](../poteto-mode/references/model-catalog.md#role-defaults). A native lane uses the parent subagent primitive; an external lane uses the launcher directly. On Codex, resolve remaining Claude tool names via [`codex-tools.md`](../poteto-mode/references/codex-tools.md). Pick each subagent's effort for the job, per the Subagents section of the **poteto-mode** skill.
 
-On T3, the [host route](../poteto-mode/references/provider-dispatch.md#t3-host-2026-10-28) replaces the standalone launcher, worktree, background, and receipt instructions below. Label no-edit intent as advisory. Required enforced read-only access refuses without attestation. Use the compiled request and distinct T3 result records.
-
 ## 1. Assess complexity
 
 If the scope is ambiguous, state your interpretation and explore. The user can redirect.

@@ -1,7 +1,5 @@
 ### Hillclimb
 
-On T3, follow [host dispatch](../references/provider-dispatch.md#t3-host-2026-10-28): the parent calls `delegate_task`, T3 prepares worktrees, and distinct T3 records replace CLI receipts. Do not create a child checkout in the shell or its brief.
-
 **You own the metric and the experiment's integrity. Supervise and review. Delegate the attempts.** For sustained, iterative improvement of one measurable thing against a target. A one-off fix is Bug fix or Perf issue. This is the loop.
 
 Core discipline: one change, one measurement, keep or revert. Never stack untested changes, and never claim a win from code inspection (the **prove-it-works** principle skill).
